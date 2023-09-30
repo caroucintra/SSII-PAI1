@@ -1,5 +1,6 @@
+import gui
 import config
 
-config.writeDefaultConfig()
+config.writeDefaultConfig
 
-config.readConfig()
+gui
