@@ -19,17 +19,18 @@ def scan_all_files(path):
 # hashfunction: String -> especifica la función de hash
 def hash_all_files(list_filenames, hashfunction):
     dict_hashes = {}
+    dict_hashes["hashes"] = {}
     for filename in list_filenames:
         bytes_file = read_file(filename)
         if hashfunction == "md5":
-            dict_hashes[filename] = hashlib.md5(bytes_file).hexdigest()
+            dict_hashes["hashes"][filename] = hashlib.md5(bytes_file).hexdigest()
         elif hashfunction == "sh1":
-            dict_hashes[filename] = hashlib.sha1(bytes_file).hexdigest()
+            dict_hashes["hashes"][filename] = hashlib.sha1(bytes_file).hexdigest()
         else:
-            dict_hashes[filename] = hashlib.sha256(bytes_file).hexdigest()
+            dict_hashes["hashes"][filename] = hashlib.sha256(bytes_file).hexdigest()
 
     with open("hashes.json", "w") as write_file:
-        json.dump(dict_hashes, write_file)
+        json.dump(dict_hashes, write_file, indent=4)
 
     return dict_hashes
 
@@ -54,8 +55,8 @@ def read_hashes_to_dict():
     with open("hashes.json", "r") as read_file:
         dict_hashes = json.load(read_file)
     
-    print("\n".join("{0} |||| {1}".format(k, v)  for k,v in dict_hashes.items()))
-    return dict_hashes
+    print("\n".join("{0} |||| {1}".format(k, v)  for k,v in dict_hashes["hashes"].items()))
+    return dict_hashes["hashes"]
 
 
         
