@@ -7,7 +7,7 @@ config = configparser.ConfigParser()
 
 def writeDefaultConfig():
     config['hids'] = {
-        'directories_to_scan': '',
+        'directories_to_scan': 'filesystem',
         'hash_function': 'md5',
         'email_to_notify': '',
         'scan_interval': 3,
@@ -15,7 +15,7 @@ def writeDefaultConfig():
     }
     
     config['instruciones'] = {
-        'directories_to_scan': 'directorios para ser protegidos',
+        'directories_to_scan': 'por defecto: filesystem, directorios para ser protegidos',
         'hash_function': 'por defecto: md5, indica: md5 | sha1 | sha256',
         'email_to_notify': 'correos para ser notificado, puede indicar varias correos separados por una coma ","',
         'scan_interval': 'por defecto: diario, indica: 1=3min, 2=1h, 3=24h',
@@ -24,6 +24,7 @@ def writeDefaultConfig():
 
     with open(os.getcwd() + '/src/hids.config', 'w') as configfile:
         config.write(configfile)
+    return config
     
 
 def readConfig():

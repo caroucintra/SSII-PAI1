@@ -2,19 +2,19 @@ import glob, os, hashlib, json
 
 BUFFER_SIZE = 16384 # 16 kilo bytes
 
-# Devuelve una lista de las rutas de todos los ficheros en el directorio especificado y todos sub-dicrectorios
+# Devuelve una lista de las rutas absolutas de todos los ficheros en el directorio especificado y todos sus sub-dicrectorios
 # path: String -> directorio raíz a buscar 
-def scan_all_files(path):
+def scan_all_files(path, hashfunction):
     path = path + "\**"
     filenames = []
     for filename in glob.iglob(path, recursive=True):
-        if os.path.isfile(filename):  # filter dirs
+        if os.path.isfile(filename):  # filtrar dirs
             filenames.append(os.path.abspath(filename))
     
-    hash_all_files(filenames, "sha256")
+    hash_all_files(filenames, hashfunction)
     return filenames
 
-# Devuelve un dicionario de todos los hash de las rutas de los ficheros en la lista especificada a base de una función de hash y lo guardo en hashes.json
+# Devuelve un dicionario de todos los hash de las rutas de los ficheros en la lista especificada a base de una función de hash y los guarda en hashes.json
 # list_filenames: [] String -> lista con las rutas de los ficheros
 # hashfunction: String -> especifica la función de hash
 def hash_all_files(list_filenames, hashfunction):
@@ -63,6 +63,6 @@ def read_hashes_to_dict():
 
 print("Start...")
 scan_all_files(
-    "filesystem",
+    "filesystem", "md5",
 )
 read_hashes_to_dict()

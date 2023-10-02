@@ -105,9 +105,9 @@ class MainWindow(QMainWindow):
 def start():
     print("starts app")
 
+def startGUI():
+    app = QApplication(sys.argv)
 
-app = QApplication(sys.argv)
-
-window = MainWindow()
-window.show()
-app.exec_()
+    window = MainWindow()
+    window.show()
+    app.exec_()
