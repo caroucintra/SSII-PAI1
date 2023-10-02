@@ -96,10 +96,12 @@ class MainWindow(QMainWindow):
             self.log_input,
         )
         start()
+        self.close()
 
     def default(self):
         config.writeDefaultConfig()
         start()
+        self.close()
 
 
 def start():
