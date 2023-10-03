@@ -15,20 +15,18 @@ def main():
     gui.startGUI()
     print("after gui")
 
-
-""""
-    scan_interval = conf["hids"]["scan_interval"]
-    if scan_interval == 1:
-        schedule.every(3).minutes.do(task)  
+    """ scan_interval = conf["hids"]["scan_interval"]
+    print(scan_interval)
+    if scan_interval == 3:
+        print("scan interval is 3")
+        schedule.every(20).seconds.do(task)  
     elif scan_interval == 2:
         schedule.every(1).hour.do(task)
     else:
         schedule.every().day.at("10:30").do(task)
     
     while True:
-        schedule.run_pending()
-        time.sleep(1)
-"""
+        schedule.run_pending() """
 
 
 if __name__ == "__main__":

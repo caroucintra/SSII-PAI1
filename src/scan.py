@@ -7,23 +7,31 @@ BUFFER_SIZE = 16384 # 16 kilo bytes
 # only_hashes: Boolean -> decidir si sólo devolvemos los hashes
 # print_hashes: Boolean -> pasa por la funcion dict_hashes
 def scan_all_files(path, hashfunction, only_hashes, print_hashes):
-    path = path + "\**"
+    print("in scan all files function")
+    # depeding on your operating system it is "\**" or "/**"
+    path = path + "/**"
     filenames = []
     for filename in glob.iglob(path, recursive=True):
         if os.path.isfile(filename):  # filtrar dirs
             filenames.append(os.path.abspath(filename))
-    
+    for file in filenames:
+        print(file)
     dict_hashes = hash_all_files(filenames, hashfunction, print_hashes)
+    print("only hashes: " + str(only_hashes))
     if only_hashes:
         return dict_hashes
     else:
         return filenames
+
 
 # Devuelve un dicionario de todos los hash de las rutas de los ficheros en la lista especificada a base de una función de hash y los guarda en hashes.json
 # list_filenames: [] String -> lista con las rutas de los ficheros
 # hashfunction: String -> especifica la función de hash
 # print_hashes: Boolean -> decidir si guardamos los hashes en hashes.json
 def hash_all_files(list_filenames, hashfunction, print_hashes):
+    print("in hash all files function")
+    print(hashfunction)
+    print("json file: " + str(print_hashes))
     dict_hashes = {}
     dict_hashes["hashes"] = {}
     for filename in list_filenames:
@@ -34,7 +42,9 @@ def hash_all_files(list_filenames, hashfunction, print_hashes):
             dict_hashes["hashes"][filename] = hashlib.sha1(bytes_file).hexdigest()
         else:
             dict_hashes["hashes"][filename] = hashlib.sha256(bytes_file).hexdigest()
-
+    print("hashes in json: " + str(print_hashes))
+    for file in list_filenames:
+        print(dict_hashes["hashes"][file])
     if print_hashes:
         with open("hashes.json", "w") as write_file:
             json.dump(dict_hashes, write_file, indent=4)
@@ -64,11 +74,3 @@ def read_hashes_to_dict():
     
     print("\n".join("{0} |||| {1}".format(k, v)  for k,v in dict_hashes["hashes"].items()))
     return dict_hashes["hashes"]
-
-
-        
-
-print("Start...")
-scan_all_files(
-    "filesystem", "md5", False, True)
-read_hashes_to_dict()
