@@ -2,8 +2,9 @@ import gui, config, scan, compare, schedule, time, send_mail
 
 def monthly_mail():
     # if the email gets typed in a read from the config file, there is a formatting error and the email won't be sent
-    #recipient = config.config['hids']['email_to_notify']
-    recipient = "jule.nogaj@gmail.com"
+    conf = config.readConfig()
+    recipient = conf['hids']['email_to_notify']
+    #recipient = "jule.nogaj@gmail.com"
     send_mail.send_email(recipient)
     with open("log.log", 'w') as log_file:
         log_file.write("")
@@ -11,7 +12,7 @@ def monthly_mail():
 
 
 def daily_scan():
-    conf = config.writeDefaultConfig()
+    conf = config.readConfig()
     dict_new_hashes = scan.scan_all_files(conf["hids"]["directories_to_scan"], conf["hids"]["hash_function"], True, False)
     compare.compare_hashes(dict_new_hashes)
 

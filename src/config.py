@@ -30,11 +30,18 @@ def writeDefaultConfig():
 def readConfig():
     config.read(os.getcwd() + '/src/hids.config')
     
-    directory = config['hids']['directory_to_scan']
+    directory = config['hids']['directories_to_scan']
     function = config['hids']['hash_function']
     email = config['hids']['email_to_notify']
     scan = config['hids']['scan_interval']
     log = config['hids']['log_interval']
+
+    dict = {
+
+    }
+    
+    #return (directory, function, email, scan, log)
+    return config
 
 
 def editConfig(dir, function, email, scan, log):
