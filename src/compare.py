@@ -1,21 +1,22 @@
-import logging
-import scan, config, scan
-from scan import *
+import logging, config, scan
 
 # Compara los hashes antiguos de la última exploración con los nuevos hashes del estado actual del sistema de archivos
 # Devuelve una lista con sublistas de ficheros completos y cambiados
 # new_hashes: directiorio con la ruta como clave y el hash como valor
 def compare_hashes(dict_new_hashes):
-    saved_hashes = read_hashes_to_dict()
+    saved_hashes = scan.read_hashes_to_dict()
     new_hashes = dict_new_hashes["hashes"]
     good_files = []
     changed_files = []
     file_info = []
     # check for added or changed files
-    for key in new_hashes.keys():
-        if new_hashes[key] == saved_hashes[key]:
-            good_files.append(key)
-        else:
+    for key in saved_hashes.keys():
+        try:
+            if saved_hashes[key] == new_hashes[key]:
+                good_files.append(key)
+            else:
+                changed_files.append(key)
+        except KeyError:
             changed_files.append(key)
     print("alles gut")
     file_info.append(good_files)
@@ -49,7 +50,7 @@ def write_to_log(file_info):
         logging.info(file_info[1][j])
 
 
-""" initialize_log()
+"""initialize_log()
 conf = config.writeDefaultConfig()
 dict_new_hashes = scan.scan_all_files(conf["hids"]["directories_to_scan"], conf["hids"]["hash_function"], True, False)
-compare_hashes(dict_new_hashes) """
+compare_hashes(dict_new_hashes)"""
