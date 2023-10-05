@@ -3,7 +3,7 @@ import glob, os, hashlib, json
 BUFFER_SIZE = 16384 # 16 kilo bytes
 
 # Devuelve una lista de las rutas absolutas de todos los ficheros en el directorio especificado y todos sus sub-dicrectorios
-# path: String -> directorio raíz a buscar 
+# path: String -> directorio raíz a buscar; indica una ruta absoluta o relativa al directorio del proyecto
 def scan_all_files(path, hashfunction):
     path = path + "\**"
     filenames = []
