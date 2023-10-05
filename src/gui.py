@@ -69,25 +69,21 @@ class MainWindow(QMainWindow):
 
     def directories_edited(self, s):
         self.directories_input = s
-        print(s)
 
     def email_edited(self, s):
         self.email_input = s
-        print(s)
 
     def function_edited(self, s):
         self.function_input = s
-        print(s)
 
     def scan_edited(self, i):
         self.scan_input = i
-        print(i)
 
     def log_edited(self, i):
         self.log_input = i
-        print(i)
 
     def run(self):
+        print(self.email_input)
         config.editConfig(
             self.directories_input,
             self.function_input,
@@ -96,10 +92,12 @@ class MainWindow(QMainWindow):
             self.log_input,
         )
         start()
+        self.close()
 
     def default(self):
         config.writeDefaultConfig()
         start()
+        self.close()
 
 
 def start():

@@ -3,21 +3,35 @@ import glob, os, hashlib, json
 BUFFER_SIZE = 16384 # 16 kilo bytes
 
 # Devuelve una lista de las rutas absolutas de todos los ficheros en el directorio especificado y todos sus sub-dicrectorios
-# path: String -> directorio raíz a buscar; indica una ruta absoluta o relativa al directorio del proyecto
-def scan_all_files(path, hashfunction):
-    path = path + "\**"
+# path: String -> directorio raíz a buscar
+# only_hashes: Boolean -> decidir si sólo devolvemos los hashes
+# print_hashes: Boolean -> pasa por la funcion dict_hashes
+def scan_all_files(path, hashfunction, only_hashes, print_hashes):
+    print("in scan all files function")
+    # depeding on your operating system it is "\**" or "/**"
+    path = path + "/**"
     filenames = []
     for filename in glob.iglob(path, recursive=True):
         if os.path.isfile(filename):  # filtrar dirs
             filenames.append(os.path.abspath(filename))
-    
-    hash_all_files(filenames, hashfunction)
-    return filenames
+    for file in filenames:
+        print(file)
+    dict_hashes = hash_all_files(filenames, hashfunction, print_hashes)
+    print("only hashes: " + str(only_hashes))
+    if only_hashes:
+        return dict_hashes
+    else:
+        return filenames
+
 
 # Devuelve un dicionario de todos los hash de las rutas de los ficheros en la lista especificada a base de una función de hash y los guarda en hashes.json
 # list_filenames: [] String -> lista con las rutas de los ficheros
 # hashfunction: String -> especifica la función de hash
-def hash_all_files(list_filenames, hashfunction):
+# print_hashes: Boolean -> decidir si guardamos los hashes en hashes.json
+def hash_all_files(list_filenames, hashfunction, print_hashes):
+    print("in hash all files function")
+    print(hashfunction)
+    print("json file: " + str(print_hashes))
     dict_hashes = {}
     dict_hashes["hashes"] = {}
     for filename in list_filenames:
@@ -28,9 +42,12 @@ def hash_all_files(list_filenames, hashfunction):
             dict_hashes["hashes"][filename] = hashlib.sha1(bytes_file).hexdigest()
         else:
             dict_hashes["hashes"][filename] = hashlib.sha256(bytes_file).hexdigest()
-
-    with open("hashes.json", "w") as write_file:
-        json.dump(dict_hashes, write_file, indent=4)
+    print("hashes in json: " + str(print_hashes))
+    for file in list_filenames:
+        print(dict_hashes["hashes"][file])
+    if print_hashes:
+        with open("hashes.json", "w") as write_file:
+            json.dump(dict_hashes, write_file, indent=4)
 
     return dict_hashes
 
@@ -57,12 +74,3 @@ def read_hashes_to_dict():
     
     print("\n".join("{0} |||| {1}".format(k, v)  for k,v in dict_hashes["hashes"].items()))
     return dict_hashes["hashes"]
-
-
-        
-
-print("Start...")
-scan_all_files(
-    "filesystem", "md5",
-)
-read_hashes_to_dict()
