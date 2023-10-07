@@ -18,7 +18,7 @@ def compare_hashes(dict_new_hashes):
                 changed_files.append(key)
         except KeyError:
             changed_files.append(key)
-    print("alles gut")
+    print("Comparison of hashes finished.")
     file_info.append(good_files)
     file_info.append(changed_files)
     write_to_log(file_info)
@@ -34,15 +34,10 @@ def initialize_log():
 
 # Escribe los resultados del scan en el documento de log
 def write_to_log(file_info):
-    print(len(file_info))
     total_files = len(file_info[0]) + len(file_info[1])
     
     logging.info(str(total_files) + " ficheros revisados")
     logging.info("Encontrados " + str(len(file_info[0])) + " ficheros completos")
-
-    for i in range(len(file_info[0])):
-        print(file_info[0][i])
-        logging.info(file_info[0][i])
     
     logging.info("Encontrados " + str(len(file_info[1])) + " ficheros cambiados")
     for j in range(len(file_info[1])):
