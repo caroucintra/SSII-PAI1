@@ -8,7 +8,7 @@ BUFFER_SIZE = 16384 # 16 kilo bytes
 # print_hashes: Boolean -> pasa por la funcion dict_hashes
 def scan_all_files(path, hashfunction, only_hashes, print_hashes):
     print("in scan all files function")
-    # depeding on your operating system it is "\**" or "/**"
+    # dependiente de tu sistema operativo es "\**" o "/**"
     path = path + "/**"
     filenames = []
     for filename in glob.iglob(path, recursive=True):
