@@ -39,7 +39,7 @@ def main():
         schedule.every(1).hour.do(daily_scan)
     else:
         # schedule.every(3).minutes.do(daily_scan)
-        schedule.every().day.at("10:30").do(daily_scan)
+        schedule.every().day.at("23:59").do(daily_scan)
 
 # schedule the emails for testing purpose
     log_interval = conf['hids']['log_interval']
