@@ -64,5 +64,5 @@ def read_hashes_to_dict():
     with open("hashes.json", "r") as read_file:
         dict_hashes = json.load(read_file)
     
-    print("\n".join("{0} |||| {1}".format(k, v)  for k,v in dict_hashes["hashes"].items()))
+    # print("\n".join("{0} |||| {1}".format(k, v)  for k,v in dict_hashes["hashes"].items()))
     return dict_hashes["hashes"]

@@ -86,7 +86,7 @@ class MainWindow(QMainWindow):
         self.log_input = i
 
     def run(self):
-        print(self.email_input)
+        # print(self.email_input)
         config.editConfig(
             self.directories_input,
             self.function_input,
@@ -104,7 +104,7 @@ class MainWindow(QMainWindow):
 
 
 def start():
-    print("starts app")
+    print("App started.")
 
 def startGUI():
     app = QApplication(sys.argv)

@@ -41,11 +41,4 @@ def write_to_log(file_info):
     
     logging.info("Encontrados " + str(len(file_info[1])) + " ficheros cambiados")
     for j in range(len(file_info[1])):
-        print(file_info[1][j])
         logging.info(file_info[1][j])
-
-
-"""initialize_log()
-conf = config.writeDefaultConfig()
-dict_new_hashes = scan.scan_all_files(conf["hids"]["directories_to_scan"], conf["hids"]["hash_function"], True, False)
-compare_hashes(dict_new_hashes)"""
