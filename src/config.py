@@ -19,7 +19,7 @@ def writeDefaultConfig():
         'hash_function': 'por defecto: md5, indica: md5 | sha1 | sha256',
         'email_to_notify': 'correos para ser notificado, puede indicar varias correos separados por una coma ","',
         'scan_interval': 'por defecto: diario, indica: 1=3min, 2=1h, 3=24h',
-        'log_interval': 'por defecto: mensual, indica: 1=10min, 2=34h, 3=30dias'
+        'log_interval': 'por defecto: mensual, indica: 1=10min, 2=24h, 3=30dias'
     }
 
     with open(os.getcwd() + '/src/hids.config', 'w') as configfile:
