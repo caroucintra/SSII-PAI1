@@ -18,7 +18,8 @@ class MainWindow(QMainWindow):
 
         function = QComboBox()
         function.addItems(["md5", "sha1", "sha256"]),
-        self.function_input = "md5"
+        self.function_input = "sha256"
+        function.setCurrentText("sha256")
         function.currentTextChanged.connect(self.function_edited)
 
         email = QLineEdit()
@@ -28,12 +29,14 @@ class MainWindow(QMainWindow):
         scan = QSpinBox()
         scan.setMinimum(1)
         scan.setMaximum(3)
-        self.scan_input = 1
+        self.scan_input = 3
+        scan.setValue(3)
         scan.valueChanged.connect(self.scan_edited)
         log = QSpinBox()
         log.setMinimum(1)
         log.setMaximum(3)
-        self.log_input = 1
+        self.log_input = 3
+        log.setValue(3)
         log.valueChanged.connect(self.log_edited)
 
         run = QPushButton("RUN")
@@ -83,7 +86,7 @@ class MainWindow(QMainWindow):
         self.log_input = i
 
     def run(self):
-        print(self.email_input)
+        # print(self.email_input)
         config.editConfig(
             self.directories_input,
             self.function_input,
@@ -101,7 +104,7 @@ class MainWindow(QMainWindow):
 
 
 def start():
-    print("starts app")
+    print("App started.")
 
 def startGUI():
     app = QApplication(sys.argv)

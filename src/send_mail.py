@@ -5,11 +5,9 @@ from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 
 
-recipients = ["jule.nogaj@gmail.com"]
-
 def send_email(recipients):
     subject = "Resumen mensual de los resultados diarios del HIDS"
-    body = "Señoras y señores,\nadjunto a este correo electrónico encontrarán el resumen mensual de los resultados diarios del HIDS"
+    body = "Señoras y señores,\n\nadjunto a este correo electrónico encontrarán el resumen mensual de los resultados diarios del HIDS.\n\n"
     sender = "testpurpose364@gmail.com"
     password = "pzyn gppw msrb wtnm"
     with open("log.log", "rb") as attachment:
@@ -33,7 +31,3 @@ def send_email(recipients):
     with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp_server:
        smtp_server.login(sender, password)
        smtp_server.sendmail(sender, recipients, msg.as_string())
-    print("Message sent!")
-
-
-#send_email(recipients)

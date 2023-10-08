@@ -8,7 +8,7 @@ config = configparser.ConfigParser()
 def writeDefaultConfig():
     config['hids'] = {
         'directories_to_scan': 'filesystem',
-        'hash_function': 'md5',
+        'hash_function': 'sha256',
         'email_to_notify': '',
         'scan_interval': 3,
         'log_interval': 3
