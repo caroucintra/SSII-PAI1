@@ -1,4 +1,4 @@
-import glob, os, hashlib, json
+import glob, os, hashlib, json, concurrent.futures
 
 BUFFER_SIZE = 16384 # 16 kilo bytes
 
@@ -30,14 +30,20 @@ def hash_all_files(list_filenames, hashfunction, print_hashes):
     print("Hashing all files... Please wait!")
     dict_hashes = {}
     dict_hashes["hashes"] = {}
-    for filename in list_filenames:
-        bytes_file = read_file(filename)
-        if hashfunction == "md5":
-            dict_hashes["hashes"][filename] = hashlib.md5(bytes_file).hexdigest()
-        elif hashfunction == "sh1":
-            dict_hashes["hashes"][filename] = hashlib.sha1(bytes_file).hexdigest()
-        else:
-            dict_hashes["hashes"][filename] = hashlib.sha256(bytes_file).hexdigest()
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        # función para calcular los hashes
+        def calculate_hash(filename):
+            bytes_file = read_file(filename)
+            if hashfunction == "md5":
+                dict_hashes["hashes"][filename] = hashlib.md5(bytes_file).hexdigest()
+            elif hashfunction == "sh1":
+                dict_hashes["hashes"][filename] = hashlib.sha1(bytes_file).hexdigest()
+            else:
+                dict_hashes["hashes"][filename] = hashlib.sha256(bytes_file).hexdigest()
+
+        # calcular los valores de hash con multithreading
+        executor.map(calculate_hash, list_filenames)
+
     if print_hashes:
         with open("hashes.json", "w") as write_file:
             json.dump(dict_hashes, write_file, indent=4)

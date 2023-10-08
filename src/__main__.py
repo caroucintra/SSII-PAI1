@@ -1,14 +1,16 @@
 import gui, config, scan, compare, schedule, time, send_mail
+from datetime import datetime
 
 def monthly_mail():
-    conf = config.readConfig()
-    recipient = conf['hids']['email_to_notify']
-    #recipient = "jule.nogaj@gmail.com"
-    send_mail.send_email(recipient)
-    print("Monthly report was sent.")
-    with open("log.log", 'w') as log_file:
-        log_file.write("")
-        print("Log file cleared.")
+    today = datetime.today()
+    if today.day == 1:
+        conf = config.readConfig()
+        recipient = conf['hids']['email_to_notify']
+        send_mail.send_email(recipient)
+        print("Monthly report was sent.")
+        with open("log.log", 'w') as log_file:
+            log_file.write("")
+            print("Log file cleared.")
 
 
 def daily_scan():
@@ -21,11 +23,12 @@ def daily_scan():
 
 def main():
     conf = config.writeDefaultConfig()
+    gui.startGUI()
     scan.scan_all_files(conf["hids"]["directories_to_scan"], conf["hids"]["hash_function"], False, True)
     print("Basic scan finished.")
     compare.initialize_log()
     print("Log initialized.")
-    gui.startGUI()
+    
 
 # schedule the scans
     scan_interval = conf["hids"]["scan_interval"]
@@ -35,8 +38,8 @@ def main():
     elif scan_interval == "2":
         schedule.every(1).hour.do(daily_scan)
     else:
-        schedule.every(10).minutes.do(daily_scan)
-        # schedule.every().day.at("10:30").do(daily_scan)
+        # schedule.every(3).minutes.do(daily_scan)
+        schedule.every().day.at("10:30").do(daily_scan)
 
 # schedule the emails for testing purpose
     log_interval = conf['hids']['log_interval']
@@ -45,8 +48,8 @@ def main():
     elif log_interval == "2":
         schedule.every(34).hours.do(monthly_mail)
     else:
-        # schedule.every(1).month.at("00:00").do(monthly_mail)
-        schedule.every(30).minutes.do(monthly_mail)
+        schedule.every().day.at("00:00").do(monthly_mail)
+        # schedule.every(30).minutes.do(monthly_mail)
 
 
     while True:

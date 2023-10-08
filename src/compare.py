@@ -1,4 +1,4 @@
-import logging, config, scan
+import logging, scan
 
 # Compara los hashes antiguos de la última exploración con los nuevos hashes del estado actual del sistema de archivos
 # Devuelve una lista con sublistas de ficheros completos y cambiados
